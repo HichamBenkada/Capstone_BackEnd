@@ -73,9 +73,9 @@ router.route("/:id")
 //update a single book by id
   .put(async (req, res) => {
     try {
-      if (!req.body.title || !req.body.author || !req.body.publishedYear) {
+      if (!req.body.title || !req.body.author || !req.body.imageURL|| !req.body.description) {
         res.status(400).send({
-          message: "all fields are required; title, author and publishedYear",
+          message: "all fields are required",
         });
       }
       const { id } = req.params;
