@@ -22,6 +22,10 @@ app.use(cors())
 
 //======= importing Routes
 const books = require ("./routes/books.js")
+const users = require("./routes/users.js");
+const comments = require("./routes/comments.js");
+const seed = require("./routes/seed.js");
+
 
 //======= parseIn Middlewares
 app.use(express.json());
@@ -43,8 +47,12 @@ app.use((req, res, next) => {
 });
 
 //======= Route redirection:
+app.use("/seed", seed);
 app.use("/api/books", books);
+app.use("/api/users", users);
+app.use("/api/comments", comments);
 
+//DataBase seeding: http://localhost:5050/seed
 
 //======= page not found:
 app.use((req, res) => {

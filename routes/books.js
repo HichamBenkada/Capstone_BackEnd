@@ -25,8 +25,8 @@ router
 //handle query filter
   .get(async (req, res) => {
     try {
-      const { title, author, publishedYear } = req.query;
-      const books = await Book.find({ title, author, publishedYear });
+      const { author } = req.query;
+      const books = await Book.find({ author });
       res.status(200).json({
         count: books.length,
         data: books,

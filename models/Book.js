@@ -11,7 +11,7 @@ const bookSchema = mongoose.Schema(
       required: true,
     },
     imageURL: {
-      type: Number,
+      type: String,
       required: true,
     },
     description: {
@@ -23,5 +23,5 @@ const bookSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-
-module.exports = mongoose.model("Book", bookSchema);
+const Book = mongoose.model("Book", bookSchema);
+module.exports = Book; 

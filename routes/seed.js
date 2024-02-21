@@ -8,7 +8,7 @@ const Book = require("../models/Book");
 const Comment = require("../models/Comment");
 
 //Data Collection:
-const data = require("../db/data");
+const data = require("../data/data");
 
 //mongoDB Database seeding:
 router.get("/", async (req, res) => {
@@ -31,42 +31,41 @@ router.get("/", async (req, res) => {
     //inserting Book collection
     await Book.deleteMany({});
     data.books = await Promise.all(
-        data.books.map((book) =>  {
-          return new Book({
-            title: book.title,
-            author: book.author,
-            imageURL: book.imageURL,
-            description: book.description,
-            userId: userIds[Math.floor(Math.random()*userIds.length)],
-          }).save();
-        })
-      );
+      data.books.map((book) => {
+        return new Book({
+          userId: userIds[Math.floor(Math.random() * userIds.length)],
+          title: book.title,
+          author: book.author,
+          imageURL: book.imageURL,
+          description: book.description,
+        }).save();
+      })
+    );
 
     // await Post.insertMany(Books);
-    // console.log("Past after saved",data.Books)
+    // console.log("Past after saved",data.books) checked
     let bookIds = await data.books.map((book) => book._id);
-    
-    // console.log("post id after saved",BookIds)
 
-      await Comment.deleteMany({});
-      data.comments = await Promise.all(
-        data.comments.map((comment) =>  {
-           const index= Math.floor(Math.random()*userIds.length);
-          return new Comment({
-            content: comment.content,
-            userId: userIds[index],
-            bookId: bookIds[index]
-          }).save();
-        })
-      );
+    // console.log("post id after saved",bookIds) checked
 
-    console.log("Database collections are created");
+    await Comment.deleteMany({});
+    data.comments = await Promise.all(
+      data.comments.map((comment) => {
+        const index = Math.floor(Math.random() * userIds.length);
+        return new Comment({
+          content: comment.content,
+          userId: userIds[index],
+          bookId: bookIds[index],
+        }).save();
+      })
+    );
+    console.log("comments after saved",data.comments);
     res.json({
       success: "BooksDB Collections are created and data successfully inserted",
     });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Something went wrong:");
+    res.status(500).send("Something went wrong: data partialy inserted");
   }
 });
 
