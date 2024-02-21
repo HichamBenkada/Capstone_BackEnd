@@ -39,7 +39,7 @@ router
 //create a new book
   .post(async (req, res) => {
     try {
-      if (!req.body.title || !req.body.author || !req.body.publishedYear) {
+      if (!req.body.title || !req.body.author || !req.body.imageURL|| !req.body.description) {
         res.status(400).send({
           message: "all fields are required; title, author and publishedYear",
         });
@@ -47,13 +47,14 @@ router
       const newBook = {
         title: req.body.title,
         author: req.body.author,
-        publishedYear: req.body.publishedYear,
+        imageURL: req.body.imageURL,
+        description: req.body.description,
       };
       const book = await Book.create(newBook);
       res.status(201).send(book);
     } catch (error) {
       console.log(error.message);
-      res.status(500).send({ Error: error.message });
+      res.status(500).send({ "Error": error.message });
     }
   });
 

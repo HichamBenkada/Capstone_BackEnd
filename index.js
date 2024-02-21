@@ -1,4 +1,5 @@
 const express =require("express");
+const bodyParser = require('body-parser')
 const mongoose = require("mongoose");
 const cors = require('cors')
 require('dotenv').config();
@@ -29,7 +30,8 @@ const seed = require("./routes/seed.js");
 
 //======= parseIn Middlewares
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //======= Custom Logger Middleware
 app.use((req, res, next) => {
